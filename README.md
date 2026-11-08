@@ -172,4 +172,4 @@ python rebuild_dex2_stringids.py      # Produces valid assembly DEX
 
 ## License
 
-MIT, Copyright (C) 2026 Evarentha. See LICENSE.
+MIT, Copyright (C) 2026 Evarentha. See [LICENSE](LICENSE).
