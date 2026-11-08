@@ -11,7 +11,7 @@
 # SPDX-License-Identifier: MIT
 
 """
-Parses Dalvik bytecode for com.iflytek.edu.apm.base.network.EncryptUtil, extracting cryptographic routine signatures and constants.
+Parses Dalvik bytecode for com.target.app.EncryptUtil, extracting cryptographic routine signatures and constants.
 """
 
 """

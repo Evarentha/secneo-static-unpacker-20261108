@@ -169,25 +169,9 @@ DEX Layout in Memory
 Because the actual string payload data (`string_data_item` entries containing lengths and MUTF-8 bytes) is stored **unencrypted** in the string pool, we can reconstruct the mapping array without dynamic decryption.
 
 ### 5.1 Correlation Invariant
-During DEX compilation, compiler tools (DX, D8) append string literals sequentially into the data segment while sorting index pointers. In low-to-mid index regions (which include API routes, method names, and package paths), the storage order within the string pool directly mirrors the index ordering:
+During Dalvik DEX compilation, toolchains (DX, D8) append string literals sequentially into the string data pool while establishing index pointers. In low-to-mid index regions (which encompass URI paths, method identifiers, and package prefixes), the sequential storage layout within the unencrypted string data pool preserves a near-identity mapping with the original string index table.
 
-```
-Anchor Index Verification
-Index 1909:
-  Bytecode Reference: const-string v0, string@1909
-  Pool Sequential Pos: pool[1909]
-  Decoded String:      "/mdm/dev/loginInitV3"       [Match: True]
-
-Index 1934:
-  Bytecode Reference: const-string v1, string@1934
-  Pool Sequential Pos: pool[1934]
-  Decoded String:      "/mdm/loginInitV3"           [Match: True]
-
-Index 1935:
-  Bytecode Reference: const-string v2, string@1935
-  Pool Sequential Pos: pool[1935]
-  Decoded String:      "/mdm/loginInitV3_pre"       [Match: True]
-```
+Empirical verification against known `const-string` bytecode cross-references confirms exact index-to-pool correspondence across early sequential blocks, allowing accurate reconstruction of core API routes, field descriptors, and method invocation targets prior to encountering type descriptor reordering.
 
 ### 5.2 Global Structural Consistency
 Evaluating the reconstructed string table against the 5,149 strict descriptors in `type_ids` validates the sorting model:

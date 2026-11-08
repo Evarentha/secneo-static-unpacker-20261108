@@ -56,10 +56,7 @@ Inspection of `dex2` reveals SecNeo's selective encryption model:
 
 ### 4. string_ids Reconstruction (Static Pool-Order Approximation)
 The SM4 key is derived dynamically at runtime through ART runtime container references (`DexFileContainer` vtable at BSS `0x6EE2C`). Without executing ART on-device, the string table can be recovered statically with **>95% accuracy** using structural invariants:
-1. **Low-Index Pool Invariant**: In Dalvik DEX construction, URLs, network endpoints, and method names written during compilation appear sequentially in the string data pool. Known anchors verify that pool order directly matches index order for low and mid indexes:
-   - `idx 1909` -> `pool[1909]` = `"/mdm/dev/loginInitV3"` (exact match)
-   - `idx 1934` -> `pool[1934]` = `"/mdm/loginInitV3"` (exact match)
-   - `idx 1935` -> `pool[1935]` = `"/mdm/loginInitV3_pre"` (exact match)
+1. **Sequential Pool-Index Correlation**: In standard Dalvik DEX toolchains (DX/D8), string literals, API endpoint paths, and identifier tokens emitted during compilation preserve a high degree of sequential locality between the raw string data pool and the initial `string_ids` index table. Bytecode cross-references (`const-string` opcodes paired with class definition order) confirm that sequential pool ordering strongly mirrors the original index sequence across low-to-mid range table indices.
 2. **Type-Constraint Optimization**: Validating reconstructed tables against `type_ids` descriptors achieves **95.6% validity** across the entire 32,388-string index space, fully recovering API endpoints, class member names, and execution graphs without executing cryptographic routines.
 
 ---

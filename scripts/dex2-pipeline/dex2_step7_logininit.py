@@ -2,7 +2,7 @@
 #
 # Target Method Bytecode Extractor
 #
-# Isolates and dumps bytecode for loginInitV3 authentication routines.
+# Isolates and dumps bytecode for targetMethod authentication routines.
 #
 # Authors:
 # worryzu <worryzu@evarentha.com> @LinearTeam
@@ -11,10 +11,10 @@
 # SPDX-License-Identifier: MIT
 
 """
-Locates the method definitions and Dalvik bytecode specifically for MDM initialization routines (loginInitV3).
+Locates the method definitions and Dalvik bytecode specifically for target API method definitions (targetMethod).
 """
 
-# Step 7: dex2 symbolic resolution + locate & decode the method that references /mdm/loginInitV3.
+# Step 7: dex2 symbolic resolution + locate & decode the method that references /mdm/targetMethod.
 #  * string map: pool2 walk is index-ordered -> idx -> string (no need for encrypted string_ids)
 #  * type/proto/field/method ids: plaintext tables at 0x8B8000..
 #  * code: plaintext in data tail; enclosing code_item found by header scan
@@ -152,7 +152,7 @@ def decode(insns_start, insns_units, limit=4000, annotate=True):
         o += 2*(n+1)
     return out
 
-# ---------------- find the loginInitV3 reference ----------------
+# ---------------- find the targetMethod reference ----------------
 def find_const_string(idx):
     res = []
     for base in range(TAIL, N, 0x40000):
@@ -167,7 +167,7 @@ def find_const_string(idx):
                 if j == idx: res.append(base+off)
     return res
 
-TARGETS = {1934: "/mdm/loginInitV3", 1909: "/mdm/dev/loginInitV3", 1935: "/mdm/loginInitV3_pre"}
+TARGETS = {1934: "/mdm/targetMethod", 1909: "/mdm/dev/targetMethod", 1935: "/mdm/targetMethod_pre"}
 for idx, name in TARGETS.items():
     pos = find_const_string(idx)
     print(f"\n===== const-string #{idx} {name}: {len(pos)} occurrence(s) =====")

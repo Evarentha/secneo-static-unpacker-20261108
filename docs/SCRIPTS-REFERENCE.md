@@ -88,7 +88,7 @@ These scripts operate on the raw memory dump of secondary application frameworks
 | 04 | `dex2_step4_chain.py` | Verifies structural adjacency of `proto_ids`, `field_ids`, `method_ids` |
 | 05 | `dex2_step5_relocate.py` | Calculates base-offset adjustments for fragmented sections |
 | 06 | `dex2_step6_conststring.py` | Scans Dalvik opcodes for `const-string` and `const-string/jumbo` references |
-| 07 | `dex2_step7_logininit.py` | Isolates method definitions for target API call chains (`loginInitV3`) |
+| 07 | `dex2_step7_logininit.py` | Method bytecode isolator (extracts sample target methods) |
 | 08 | `dex2_step8_codeitems.py` | Validates all 21,790 `code_item` bytecode instances |
 | 09 | `dex2_step9_decode.py` | Decodes register instructions and opcode byte streams |
 | 10 | `dex2_step10_strmap.py` | Cross-references pool strings against decompiled invocation sites |
@@ -144,7 +144,7 @@ python scripts/analysis/keysearch.py <decrypted_module.bin> <ciphertext_block_he
 ---
 
 ### `parse_encryptutil.py`
-Extracts Dalvik bytecode and method signatures specifically for cryptography utility classes (e.g. `com.iflytek.edu.apm.base.network.EncryptUtil`).
+Extracts Dalvik bytecode and method signatures specifically for cryptography utility classes (e.g. `com.example.app.security.EncryptUtil`).
 
 ```bash
 python scripts/analysis/parse_encryptutil.py <reconstructed.dex>
@@ -160,12 +160,12 @@ These utilities are intended for validation on physical ARM test devices (root r
 Attaches to the active application process and extracts all in-memory DEX files directly from ART's internal tracking lists.
 
 ```bash
-python scripts/frida/frida_dexdump_manual.py -U -n com.iflytek.mdmservice -o ./dumps/
+python scripts/frida/frida_dexdump_manual.py -U -n <target_package_name> -o ./dumps/
 ```
 
 ### `frida_stringids_dump.js`
 Frida hook script. Intercepts the SecNeo native decryption handler to dump the decrypted `string_ids` buffer directly to disk before execution begins.
 
 ```bash
-frida -U -f com.iflytek.mdmservice -l scripts/frida/frida_stringids_dump.js --no-pause
+frida -U -f <target_package_name> -l scripts/frida/frida_stringids_dump.js --no-pause
 ```
