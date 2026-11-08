@@ -1,0 +1,10 @@
+# Core
+unicorn>=2.0.0
+pycryptodome>=3.19.0
+
+# Optional (DEX parsing — has issues with SecNeo-modified headers)
+# androguard>=4.1.4
+
+# Optional (Frida — requires physical ARM device)
+# frida>=17.0.0
+# frida-tools>=12.0.0

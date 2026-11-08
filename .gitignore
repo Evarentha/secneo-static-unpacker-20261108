@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDA Pro
+*.id0
+*.id1
+*.id2
+*.nam
+*.til
+*.asm
+*.i64
+*.idb
+
+# Binary artifacts (large files not for git)
+*.dex
+*.so
+*.bin
+*.elf
+*.apk
+*.jar
+
+# But keep small JSON analysis outputs
+!*.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temp
+*.tmp
+*.log
+err.txt
+_t.txt
